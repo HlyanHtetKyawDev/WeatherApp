@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId = "com.mm.weatherapp"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -75,6 +75,7 @@ dependencies {
 
     // Dependency Injection
     implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
     kapt(libs.hilt.android.compiler)
 
     // Network calls

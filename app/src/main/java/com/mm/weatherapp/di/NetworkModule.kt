@@ -32,6 +32,13 @@ class NetworkModule {
     ): OkHttpClient =
         OkHttpClient
             .Builder()
+            .addInterceptor { chain ->
+                val url = chain.request().url
+                    .newBuilder()
+                    .addQueryParameter("key", BuildConfig.API_KEY)
+                    .build()
+                chain.proceed(chain.request().newBuilder().url(url).build())
+            }
             .addInterceptor(httpLoggingInterceptor)
             .build()
 

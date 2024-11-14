@@ -6,9 +6,9 @@ import com.mm.weatherapp.search.domain.repository.SearchRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class SearchUseCase @Inject constructor(
+class SearchCitiesUseCase @Inject constructor(
     private val repository: SearchRepository
 ) {
     operator fun invoke(query: String): Flow<Resource<MutableList<Search>>> =
-        repository.search(query)
+        repository.searchCities(query)
 }

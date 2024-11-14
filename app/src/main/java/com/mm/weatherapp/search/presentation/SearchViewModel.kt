@@ -3,7 +3,7 @@ package com.mm.weatherapp.search.presentation
 import androidx.lifecycle.viewModelScope
 import com.mm.weatherapp.core.data.network.utils.Resource
 import com.mm.weatherapp.core.presentation.BaseViewModel
-import com.mm.weatherapp.search.domain.useCase.SearchUseCase
+import com.mm.weatherapp.search.domain.useCase.SearchCitiesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val searchUseCase: SearchUseCase
+    private val searchCitiesUseCase: SearchCitiesUseCase
 ) : BaseViewModel<SearchEvent>() {
 
     private val _state = MutableStateFlow(SearchUiState())
@@ -35,7 +35,7 @@ class SearchViewModel @Inject constructor(
             )
         }
         viewModelScope.launch {
-            searchUseCase(query).collectLatest { result ->
+            searchCitiesUseCase(query).collectLatest { result ->
                 when (result) {
                     is Resource.Error -> {
                         _state.update {

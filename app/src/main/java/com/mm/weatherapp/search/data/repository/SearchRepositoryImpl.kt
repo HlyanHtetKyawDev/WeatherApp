@@ -5,7 +5,7 @@ import com.mm.weatherapp.core.data.helper.getResultOrThrow
 import com.mm.weatherapp.core.data.network.exceptions.GeneralException
 import com.mm.weatherapp.core.data.network.utils.Resource
 import com.mm.weatherapp.search.data.dataSource.SearchNetworkDataSource
-import com.mm.weatherapp.search.data.mappers.toSearch
+import com.mm.weatherapp.search.data.mapper.toSearch
 import com.mm.weatherapp.search.domain.Search
 import com.mm.weatherapp.search.domain.repository.SearchRepository
 import kotlinx.coroutines.flow.Flow
@@ -16,12 +16,12 @@ class SearchRepositoryImpl @Inject constructor(
     private val networkDataSource: SearchNetworkDataSource,
 ) : SearchRepository {
 
-    override fun search(query: String): Flow<Resource<MutableList<Search>>> =
+    override fun searchCities(query: String): Flow<Resource<MutableList<Search>>> =
         flow {
             emit(Resource.Loading())
             try {
                 val data = getResultOrThrow {
-                    networkDataSource.search(query)
+                    networkDataSource.searchCities(query)
                 }
                 if (data.isNotEmpty()) {
                     emit(Resource.Success(data.map { it.toSearch() }.toMutableList()))
@@ -38,5 +38,4 @@ class SearchRepositoryImpl @Inject constructor(
                 emit(Resource.Error(e.message.orEmpty()))
             }
         }
-
 }
