@@ -1,7 +1,6 @@
 package com.mm.weatherapp.sports.presentation
 
 import android.widget.Toast
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,7 +22,6 @@ import com.mm.weatherapp.core.presentation.components.AppBar
 import com.mm.weatherapp.core.presentation.utils.ObserveAsEvents
 import com.mm.weatherapp.sports.presentation.components.SportTypesItem
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SportsScreen(
     name: String,

@@ -34,7 +34,7 @@ class AstronomyRepositoryImpl @Inject constructor(
             }
         } catch (e: GeneralException) {
             Log.e("AstronomyRepositoryImpl", "sException: ${e.message}")
-            emit(Resource.Error(e.message.orEmpty()))
+            emit(Resource.Error(if (e.message.isNullOrEmpty()) "Something went wrong" else e.message!!))
         }
     }
 

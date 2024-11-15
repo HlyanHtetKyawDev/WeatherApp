@@ -35,7 +35,7 @@ class SearchRepositoryImpl @Inject constructor(
                 }
             } catch (e: GeneralException) {
                 Log.e("SearchRepositoryImpl", "sException: ${e.message}")
-                emit(Resource.Error(e.message.orEmpty()))
+                emit(Resource.Error(if (e.message.isNullOrEmpty()) "Something went wrong" else e.message!!))
             }
         }
 }

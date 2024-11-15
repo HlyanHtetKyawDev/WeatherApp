@@ -31,7 +31,7 @@ class SportsViewModel @Inject constructor(
         get() = state.value.isLoading
         set(value) = _state.update { it.copy(isLoading = value) }
 
-    fun getSports(query: String) {
+    private fun getSports(query: String) {
         if (query.isNotEmpty()) {
             _state.update {
                 it.copy(

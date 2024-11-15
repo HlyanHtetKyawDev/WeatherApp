@@ -23,7 +23,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.compose.rememberNavController
 import com.mm.weatherapp.core.presentation.components.AppBar
 import com.mm.weatherapp.core.presentation.components.SearchTextField
 import com.mm.weatherapp.core.presentation.utils.ObserveAsEvents
@@ -42,9 +41,7 @@ fun SearchScreen(
         when (event) {
             is SearchEvent.Error -> {
                 Toast.makeText(
-                    context,
-                    event.error.message,
-                    Toast.LENGTH_LONG
+                    context, event.error.message, Toast.LENGTH_LONG
                 ).show()
             }
         }
@@ -52,8 +49,7 @@ fun SearchScreen(
     Scaffold(
         topBar = {
             AppBar(
-                title = "Search",
-                isBackIconShown = false
+                title = "Search", isBackIconShown = false
             )
         },
     ) { contentPadding ->
@@ -66,12 +62,10 @@ fun SearchScreen(
             SearchTextField(
                 onSearchQueryChange = {
                     viewModel.searchCities(it)
-                },
-                modifier = Modifier
+                }, modifier = Modifier
                     .fillMaxWidth()
                     .padding(
-                        horizontal = 16.dp,
-                        vertical = 8.dp
+                        horizontal = 16.dp, vertical = 8.dp
                     )
             )
             if (state.isLoading) {
@@ -87,8 +81,7 @@ fun SearchScreen(
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
-                )
-                {
+                ) {
                     items(state.searchList) { item ->
                         SearchItemCard(item = item) {
                             onClick(it.name)
