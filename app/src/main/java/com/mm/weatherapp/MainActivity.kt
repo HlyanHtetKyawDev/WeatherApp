@@ -1,6 +1,7 @@
 package com.mm.weatherapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -14,7 +15,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.mm.weatherapp.auth.presentation.LoginScreen
 import com.mm.weatherapp.core.presentation.navigation.ScreenAstronomy
+import com.mm.weatherapp.core.presentation.navigation.ScreenLogin
 import com.mm.weatherapp.core.presentation.navigation.ScreenSearch
 import com.mm.weatherapp.ui.theme.WeatherAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,8 +33,16 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
-                    startDestination = ScreenSearch
+                    startDestination = ScreenLogin
                 ) {
+                    composable<ScreenLogin> {
+                        LoginScreen(
+                            onLoginSuccess = {
+                                Log.d("TAG", "onCreate: onLoginSuccess")
+                                navController.navigate(ScreenSearch)
+                            }
+                        )
+                    }
                     composable<ScreenSearch> {
                         Box(
                             modifier = Modifier.fillMaxSize(),
@@ -52,6 +63,14 @@ class MainActivity : ComponentActivity() {
                             contentAlignment = Alignment.Center
                         ) {
                             Text(text = "Astronomy ${args.name}")
+                        }
+                    }
+                    composable<ScreenSearch> {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(text = "Search")
                         }
                     }
                 }

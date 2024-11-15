@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.daggerHitAndroid)
     alias(libs.plugins.org.jetbrains.kotlin.kapt)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.gms.google.services)
 }
 
 android {
@@ -26,7 +27,9 @@ android {
         val properties = Properties()
         properties.load(keystoreFile.inputStream())
         val apiKey = properties.getProperty("API_KEY") ?: ""
+        val webClientId = properties.getProperty("WEB_CLIENT_ID") ?: ""
         buildConfigField("String", "API_KEY", "\"$apiKey\"")
+        buildConfigField("String", "WEB_CLIENT_ID", "\"$webClientId\"")
     }
     buildTypes {
         release {
@@ -84,4 +87,11 @@ dependencies {
     // Navigation
     implementation(libs.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
+
+    // Sign In
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth.ktx)
 }

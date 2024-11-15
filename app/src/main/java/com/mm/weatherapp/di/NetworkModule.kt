@@ -3,6 +3,7 @@ package com.mm.weatherapp.di
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.mm.weatherapp.BuildConfig
+import com.mm.weatherapp.core.data.network.service.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -56,5 +57,11 @@ class NetworkModule {
         .baseUrl(BuildConfig.BASE_URL)
         .client(okHttpClient)
         .build()
+
+    @Provides
+    @Singleton
+    fun provideApiService(retrofit: Retrofit): ApiService {
+        return retrofit.create(ApiService::class.java)
+    }
 
 }
