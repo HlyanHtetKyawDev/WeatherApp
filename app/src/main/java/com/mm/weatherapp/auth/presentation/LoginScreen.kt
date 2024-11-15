@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -101,6 +102,7 @@ fun LoginScreen(
                 text = password,
                 leadingIcon = Icons.Default.Lock,
                 isPassword = true,
+                imeAction = ImeAction.Done,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 24.dp),

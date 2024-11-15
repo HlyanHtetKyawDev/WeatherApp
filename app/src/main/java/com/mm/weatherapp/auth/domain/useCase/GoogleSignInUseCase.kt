@@ -36,7 +36,7 @@ class GoogleSignInUseCase @Inject constructor(
         } catch (e: Exception) {
             e.printStackTrace()
             if (e is CancellationException) throw e
-            Log.d(TAG , "signIn error: ${e.message}")
+            Log.d(TAG, "signIn error: ${e.message}")
             return false
         }
     }
@@ -48,20 +48,17 @@ class GoogleSignInUseCase @Inject constructor(
         ) {
             try {
                 val tokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
-                Log.d(TAG , "name: ${tokenCredential.displayName}")
-                Log.d(TAG , "email: ${tokenCredential.id}")
-                Log.d(TAG , "image: ${tokenCredential.profilePictureUri}")
                 val authCredential = GoogleAuthProvider.getCredential(
                     tokenCredential.idToken, null
                 )
                 val authResult = firebaseAuth.signInWithCredential(authCredential).await()
                 return authResult.user != null
             } catch (e: GoogleIdTokenParsingException) {
-                Log.d(TAG , "GoogleIdTokenParsingException: ${e.message}")
+                Log.d(TAG, "GoogleIdTokenParsingException: ${e.message}")
                 return false
             }
         } else {
-            Log.d(TAG , "credential is not GoogleIdTokenCredential")
+            Log.d(TAG, "credential is not GoogleIdTokenCredential")
             return false
         }
 
