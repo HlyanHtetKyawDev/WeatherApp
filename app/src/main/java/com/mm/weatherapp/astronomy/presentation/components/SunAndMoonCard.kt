@@ -152,16 +152,17 @@ fun SunAndMoonCard(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Icon(
-                    imageVector = if (isExpanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
-                    contentDescription = "Expanded Icon"
-                )
+            if (!isExpanded) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.KeyboardArrowDown,
+                        contentDescription = "Expanded Icon"
+                    )
+                }
             }
-
             // Time Differences Section
             AnimatedVisibility(
                 visible = isExpanded,
@@ -192,6 +193,17 @@ fun SunAndMoonCard(
                         timeDifference = astronomy.diffSunSetMoonSet,
                         color = Color(0xFF5C6BC0)
                     )
+                    if (isExpanded) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.KeyboardArrowUp,
+                                contentDescription = "Expanded Icon"
+                            )
+                        }
+                    }
                 }
             }
         }

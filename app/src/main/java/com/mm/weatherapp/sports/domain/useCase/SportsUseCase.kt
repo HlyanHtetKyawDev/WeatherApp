@@ -6,7 +6,7 @@ import com.mm.weatherapp.sports.domain.repository.SportsRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class SearchCitiesUseCase @Inject constructor(
+class SportsUseCase @Inject constructor(
     private val repository: SportsRepository
 ) {
     operator fun invoke(query: String): Flow<Resource<Sports>> = repository.getSports(query)

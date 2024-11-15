@@ -32,6 +32,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mm.weatherapp.astronomy.data.mapper.toSearch
 import com.mm.weatherapp.astronomy.presentation.components.SunAndMoonCard
 import com.mm.weatherapp.astronomy.presentation.components.TimeDistanceCard
+import com.mm.weatherapp.core.data.utils.toStringTime
 import com.mm.weatherapp.core.presentation.components.AppBar
 import com.mm.weatherapp.core.presentation.components.SearchTextField
 import com.mm.weatherapp.core.presentation.utils.ObserveAsEvents
@@ -134,7 +135,7 @@ fun AstronomyScreen(
                         ) {
                             TimeDistanceCard(
                                 distance = "${data.distance} m",
-                                localTime = "14:30"
+                                localTime = data.localTime.toStringTime()
                             )
                         }
 
