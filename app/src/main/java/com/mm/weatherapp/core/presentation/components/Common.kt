@@ -1,7 +1,9 @@
 package com.mm.weatherapp.core.presentation.components
 
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Search
@@ -22,9 +24,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import com.mm.weatherapp.ui.theme.Primary
 import kotlinx.coroutines.delay
 
 @Composable
@@ -55,14 +59,16 @@ fun CommonOutlinedTextFiled(
 @Composable
 fun SearchTextField(
     onSearchQueryChange: (String) -> Unit,
+    delayMillis: Long = 500L,
     modifier: Modifier = Modifier
 ) {
     var text by remember { mutableStateOf("") }
     var debouncedText by remember { mutableStateOf("") }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     // This launches a coroutine for debouncing the text change
     LaunchedEffect(text) {
-        delay(500L) // 500ms delay
+        delay(delayMillis) // 500ms delay
         debouncedText = text
     }
 
@@ -91,6 +97,13 @@ fun SearchTextField(
                 }
             }
         },
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        keyboardActions = KeyboardActions(
+            onSearch = {
+                keyboardController?.hide()
+                onSearchQueryChange(text)
+            }
+        ),
         singleLine = true,
         shape = MaterialTheme.shapes.medium
     )
@@ -98,11 +111,26 @@ fun SearchTextField(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppBar(title: String) {
+fun AppBar(
+    title: String,
+    isBackIconShown: Boolean = true,
+    onClickBack: () -> Unit = {}
+) {
     TopAppBar(
         title = { Text(title) },
+        navigationIcon = {
+            if (isBackIconShown) {
+                IconButton(onClick = onClickBack) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        tint = Color.White,
+                        contentDescription = "Back"
+                    )
+                }
+            }
+        },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.Blue,
+            containerColor = Primary,
             titleContentColor = Color.White
         )
     )

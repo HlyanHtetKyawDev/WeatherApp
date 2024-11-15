@@ -1,6 +1,7 @@
 package com.mm.weatherapp.search.presentation
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,20 +23,21 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.compose.rememberNavController
 import com.mm.weatherapp.core.presentation.components.AppBar
 import com.mm.weatherapp.core.presentation.components.SearchTextField
 import com.mm.weatherapp.core.presentation.utils.ObserveAsEvents
-import com.mm.weatherapp.search.domain.Search
 import com.mm.weatherapp.search.presentation.components.SearchItemCard
 
 @Composable
 fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
-    onClick: (Search) -> Unit,
+    onClick: (String) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    val navController = rememberNavController()
 
     ObserveAsEvents(events = viewModel.event) { event ->
         when (event) {
@@ -48,11 +51,17 @@ fun SearchScreen(
         }
     }
     Scaffold(
-        topBar = { AppBar("Search") },
+        topBar = {
+            AppBar(
+                title = "Search",
+                isBackIconShown = false
+            )
+        },
     ) { contentPadding ->
         Column(
             modifier = modifier
                 .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
                 .padding(contentPadding)
         ) {
             SearchTextField(
@@ -61,7 +70,10 @@ fun SearchScreen(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(
+                        horizontal = 16.dp,
+                        vertical = 8.dp
+                    )
             )
             if (state.isLoading) {
                 Box(
@@ -80,7 +92,7 @@ fun SearchScreen(
                 {
                     items(state.searchList) { item ->
                         SearchItemCard(item = item) {
-                            onClick(it)
+                            onClick(it.name)
                         }
                         Spacer(modifier = Modifier.height(8.dp))
                     }

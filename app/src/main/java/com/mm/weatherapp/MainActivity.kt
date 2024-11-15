@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
+import com.mm.weatherapp.astronomy.presentation.AstronomyScreen
 import com.mm.weatherapp.auth.presentation.LoginScreen
 import com.mm.weatherapp.core.presentation.navigation.ScreenAstronomy
 import com.mm.weatherapp.core.presentation.navigation.ScreenLogin
@@ -38,23 +38,28 @@ class MainActivity : ComponentActivity() {
                     composable<ScreenLogin> {
                         LoginScreen(
                             onLoginSuccess = {
-                                navController.navigate(ScreenSearch)
+                                navController.navigate(ScreenSearch) {
+                                    popUpTo(ScreenLogin) {
+                                        inclusive = true
+                                    }
+                                }
                             }
                         )
                     }
                     composable<ScreenSearch> {
-                        SearchScreen {
-
+                        SearchScreen { name ->
+                            navController.navigate(ScreenAstronomy(name))
                         }
                     }
                     composable<ScreenAstronomy> {
-                        val args = it.toRoute<ScreenAstronomy>()
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(text = "Astronomy ${args.name}")
-                        }
+                        AstronomyScreen(
+                            onClickItem = {
+                                navController.navigate(ScreenSports(it))
+                            },
+                            onClickBack = {
+                                navController.navigateUp()
+                            }
+                        )
                     }
                     composable<ScreenSports> {
                         Box(
