@@ -37,7 +37,6 @@ fun SearchScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
-    val navController = rememberNavController()
 
     ObserveAsEvents(events = viewModel.event) { event ->
         when (event) {

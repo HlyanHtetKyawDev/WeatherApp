@@ -24,6 +24,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.NightlightRound
 import androidx.compose.material.icons.filled.WbSunny
 import androidx.compose.material3.Card
@@ -50,7 +52,7 @@ fun SunAndMoonCard(
 ) {
     var isExpanded by remember { mutableStateOf(false) }
     val cardHeight by animateDpAsState(
-        targetValue = if (isExpanded) 280.dp else 200.dp,
+        targetValue = if (isExpanded) 280.dp else 180.dp,
         animationSpec = spring(
             dampingRatio = Spring.DampingRatioMediumBouncy,
             stiffness = Spring.StiffnessLow
@@ -146,6 +148,18 @@ fun SunAndMoonCard(
                         )
                     }
                 }
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Icon(
+                    imageVector = if (isExpanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
+                    contentDescription = "Expanded Icon"
+                )
             }
 
             // Time Differences Section
