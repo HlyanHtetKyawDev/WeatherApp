@@ -9,6 +9,6 @@ import javax.inject.Inject
 class SearchCitiesUseCase @Inject constructor(
     private val repository: SearchRepository
 ) {
-    operator fun invoke(query: String): Flow<Resource<MutableList<Search>>> =
+    operator fun invoke(query: String): Flow<Resource<List<Search>>> =
         repository.searchCities(query)
 }

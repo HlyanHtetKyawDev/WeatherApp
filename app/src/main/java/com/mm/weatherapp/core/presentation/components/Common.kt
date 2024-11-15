@@ -2,16 +2,30 @@ package com.mm.weatherapp.core.presentation.components
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import kotlinx.coroutines.delay
 
 @Composable
 fun CommonOutlinedTextFiled(
@@ -35,5 +49,61 @@ fun CommonOutlinedTextFiled(
         singleLine = singleLine,
         keyboardOptions = KeyboardOptions(imeAction = imeAction),
         visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None
+    )
+}
+
+@Composable
+fun SearchTextField(
+    onSearchQueryChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var text by remember { mutableStateOf("") }
+    var debouncedText by remember { mutableStateOf("") }
+
+    // This launches a coroutine for debouncing the text change
+    LaunchedEffect(text) {
+        delay(500L) // 500ms delay
+        debouncedText = text
+    }
+
+    // Trigger the action when debouncedText changes
+    LaunchedEffect(debouncedText) {
+        onSearchQueryChange(debouncedText)
+    }
+    OutlinedTextField(
+        value = text,
+        onValueChange = { text = it },
+        modifier = modifier,
+        placeholder = { Text("Search Cities...") },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = "Search"
+            )
+        },
+        trailingIcon = {
+            if (text.isNotEmpty()) {
+                IconButton(onClick = { text = "" }) {
+                    Icon(
+                        imageVector = Icons.Default.Clear,
+                        contentDescription = "Clear search"
+                    )
+                }
+            }
+        },
+        singleLine = true,
+        shape = MaterialTheme.shapes.medium
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AppBar(title: String) {
+    TopAppBar(
+        title = { Text(title) },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color.Blue,
+            titleContentColor = Color.White
+        )
     )
 }

@@ -5,7 +5,7 @@ import com.mm.weatherapp.search.domain.Search
 
 data class SearchUiState(
     val isLoading: Boolean = false,
-    val searchList: MutableList<Search>? = null,
+    val searchList: List<Search> = emptyList(),
     val error: GeneralError? = null,
 ) {
     val showError: Boolean

@@ -29,31 +29,34 @@ class SearchViewModel @Inject constructor(
         set(value) = _state.update { it.copy(isLoading = value) }
 
     fun searchCities(query: String) {
-        _state.update {
-            it.copy(
-                isLoading = false
-            )
-        }
-        viewModelScope.launch {
-            searchCitiesUseCase(query).collectLatest { result ->
-                when (result) {
-                    is Resource.Error -> {
-                        _state.update {
-                            it.copy(
-                                isLoading = false,
-                                error = result.error
-                            )
+        if (query.isNotEmpty()) {
+            _state.update {
+                it.copy(
+                    isLoading = false,
+                    searchList = emptyList()
+                )
+            }
+            viewModelScope.launch {
+                searchCitiesUseCase(query).collectLatest { result ->
+                    when (result) {
+                        is Resource.Error -> {
+                            _state.update {
+                                it.copy(
+                                    isLoading = false,
+                                    error = result.error
+                                )
+                            }
+                            emitEvent(SearchEvent.Error(result.error))
                         }
-                        emitEvent(SearchEvent.Error(result.error))
-                    }
 
-                    is Resource.Loading -> _loading = true
-                    is Resource.Success -> {
-                        _state.update {
-                            it.copy(
-                                isLoading = false,
-                                searchList = result.data
-                            )
+                        is Resource.Loading -> _loading = true
+                        is Resource.Success -> {
+                            _state.update {
+                                it.copy(
+                                    isLoading = false,
+                                    searchList = result.data.orEmpty()
+                                )
+                            }
                         }
                     }
                 }

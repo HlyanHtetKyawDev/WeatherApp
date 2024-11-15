@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,6 +17,8 @@ import com.mm.weatherapp.auth.presentation.LoginScreen
 import com.mm.weatherapp.core.presentation.navigation.ScreenAstronomy
 import com.mm.weatherapp.core.presentation.navigation.ScreenLogin
 import com.mm.weatherapp.core.presentation.navigation.ScreenSearch
+import com.mm.weatherapp.core.presentation.navigation.ScreenSports
+import com.mm.weatherapp.search.presentation.SearchScreen
 import com.mm.weatherapp.ui.theme.WeatherAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -42,16 +43,8 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     composable<ScreenSearch> {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(text = "Search")
-                            Button(onClick = {
-                                navController.navigate(ScreenAstronomy(name = "Ygn"))
-                            }) {
-                                Text("Go to astronomy")
-                            }
+                        SearchScreen {
+
                         }
                     }
                     composable<ScreenAstronomy> {
@@ -63,12 +56,12 @@ class MainActivity : ComponentActivity() {
                             Text(text = "Astronomy ${args.name}")
                         }
                     }
-                    composable<ScreenSearch> {
+                    composable<ScreenSports> {
                         Box(
                             modifier = Modifier.fillMaxSize(),
                             contentAlignment = Alignment.Center
                         ) {
-                            Text(text = "Search")
+                            Text(text = "Sports")
                         }
                     }
                 }

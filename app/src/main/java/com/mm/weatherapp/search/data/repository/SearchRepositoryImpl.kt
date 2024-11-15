@@ -16,7 +16,7 @@ class SearchRepositoryImpl @Inject constructor(
     private val networkDataSource: SearchNetworkDataSource,
 ) : SearchRepository {
 
-    override fun searchCities(query: String): Flow<Resource<MutableList<Search>>> =
+    override fun searchCities(query: String): Flow<Resource<List<Search>>> =
         flow {
             emit(Resource.Loading())
             try {
@@ -24,7 +24,7 @@ class SearchRepositoryImpl @Inject constructor(
                     networkDataSource.searchCities(query)
                 }
                 if (data.isNotEmpty()) {
-                    emit(Resource.Success(data.map { it.toSearch() }.toMutableList()))
+                    emit(Resource.Success(data.map { it.toSearch() }))
                 } else {
                     emit(
                         Resource.Error(
