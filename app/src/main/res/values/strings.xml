@@ -4,4 +4,5 @@
     <string name="login">Login</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="there_is_no_relevant_data">There is no relevant data</string>
 </resources>

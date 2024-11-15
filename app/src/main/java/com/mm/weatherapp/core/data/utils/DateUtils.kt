@@ -15,7 +15,6 @@ fun String.toZonedDateTime(
     return zonedDateTime
 }
 
-
 fun ZonedDateTime.toStringTime(format: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"): String {
     val formatter = DateTimeFormatter.ofPattern(format)
     return this.format(formatter)

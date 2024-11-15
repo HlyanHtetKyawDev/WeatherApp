@@ -28,7 +28,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import com.mm.weatherapp.ui.theme.Primary
+import com.mm.weatherapp.ui.theme.BlueLight
 import kotlinx.coroutines.delay
 
 @Composable
@@ -130,7 +130,7 @@ fun AppBar(
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Primary,
+            containerColor = BlueLight,
             titleContentColor = Color.White
         )
     )

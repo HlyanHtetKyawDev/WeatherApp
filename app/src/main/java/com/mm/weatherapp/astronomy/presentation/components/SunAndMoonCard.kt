@@ -40,11 +40,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.mm.weatherapp.astronomy.domain.Astronomy
+import com.mm.weatherapp.ui.theme.BlueLight
+import com.mm.weatherapp.ui.theme.YellowLight
 
 @Composable
 fun SunAndMoonCard(
@@ -73,7 +74,8 @@ fun SunAndMoonCard(
             Text(
                 text = "Sun & Moon",
                 style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = BlueLight
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -97,7 +99,7 @@ fun SunAndMoonCard(
                     Icon(
                         Icons.Filled.WbSunny,
                         contentDescription = "sun",
-                        tint = Color(0xFFFFB900),
+                        tint = YellowLight,
                         modifier = Modifier.graphicsLayer {
                             scaleX = if (isExpanded) scale else 1f
                             scaleY = if (isExpanded) scale else 1f
@@ -131,7 +133,7 @@ fun SunAndMoonCard(
                     Icon(
                         Icons.Filled.NightlightRound,
                         contentDescription = "moon",
-                        tint = Color(0xFF5C6BC0),
+                        tint = BlueLight,
                         modifier = Modifier.graphicsLayer {
                             rotationZ = if (isExpanded) rotation else 0f
                         }
@@ -185,13 +187,13 @@ fun SunAndMoonCard(
                     TimeDifferenceRow(
                         label = "Rise Difference:",
                         timeDifference = astronomy.diffSunRiseMoonRise,
-                        color = Color(0xFFFFB900)
+                        color = YellowLight
                     )
 
                     TimeDifferenceRow(
                         label = "Set Difference:",
                         timeDifference = astronomy.diffSunSetMoonSet,
-                        color = Color(0xFF5C6BC0)
+                        color = BlueLight
                     )
                     if (isExpanded) {
                         Row(

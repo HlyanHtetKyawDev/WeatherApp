@@ -33,9 +33,9 @@ class SportsRepositoryImpl @Inject constructor(
                 } else {
                     // convert each item to be used in presentation layer
                     val sports = Sports(
-                        football = data.football.map { it.toSportItem() },
-                        golf = data.golf.map { it.toSportItem() },
-                        cricket = data.cricket.map { it.toSportItem() }
+                        football = data.football.map { it.toSportItem(1) },
+                        golf = data.golf.map { it.toSportItem(2) },
+                        cricket = data.cricket.map { it.toSportItem(3) }
                     )
                     emit(Resource.Success(sports))
                 }
