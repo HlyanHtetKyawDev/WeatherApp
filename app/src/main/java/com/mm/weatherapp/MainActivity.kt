@@ -1,7 +1,6 @@
 package com.mm.weatherapp
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -38,7 +37,6 @@ class MainActivity : ComponentActivity() {
                     composable<ScreenLogin> {
                         LoginScreen(
                             onLoginSuccess = {
-                                Log.d("TAG", "onCreate: onLoginSuccess")
                                 navController.navigate(ScreenSearch)
                             }
                         )

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mm.weatherapp.auth.domain.useCase.CheckIsSignedInUseCase
 import com.mm.weatherapp.auth.domain.useCase.GoogleSignInUseCase
+import com.mm.weatherapp.auth.domain.useCase.PasswordSignInUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,6 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val googleSignInUseCase: GoogleSignInUseCase,
+    private val passwordSignInUseCase: PasswordSignInUseCase,
     private val checkIsSignedInUseCase: CheckIsSignedInUseCase,
 ) : ViewModel() {
 
@@ -32,7 +34,32 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update {
                 it.copy(
-                    isLoginSuccess = googleSignInUseCase()
+                    isLoading = true
+                )
+            }
+            val isLoginSuccess = googleSignInUseCase()
+            _state.update {
+                it.copy(
+                    isLoading = false,
+                    isLoginSuccess = isLoginSuccess
+                )
+            }
+        }
+    }
+
+    fun passwordLogin(email: String, password: String) {
+        viewModelScope.launch {
+            _state.update {
+                it.copy(
+                    isLoading = true
+                )
+            }
+            val response = passwordSignInUseCase(email, password)
+            _state.update {
+                it.copy(
+                    isLoading = false,
+                    isLoginSuccess = response.isSuccess,
+                    message = response.message
                 )
             }
         }
