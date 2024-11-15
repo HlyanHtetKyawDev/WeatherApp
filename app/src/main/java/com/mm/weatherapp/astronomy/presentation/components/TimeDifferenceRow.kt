@@ -13,7 +13,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.mm.weatherapp.ui.theme.BlueLight
 import com.mm.weatherapp.ui.theme.WeatherAppTheme
 
 @Composable
@@ -50,7 +49,7 @@ fun PreviewTimeDifferenceRow(){
         TimeDifferenceRow(
             label = "Rise Difference",
             timeDifference = "+13h 15m",
-            color = BlueLight
+            color = MaterialTheme.colorScheme.primary
         )
     }
 }

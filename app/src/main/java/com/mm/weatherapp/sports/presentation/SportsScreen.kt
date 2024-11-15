@@ -70,13 +70,13 @@ fun SportsScreen(
                     .padding(contentPadding),
             ) {
                 SportTypesItem(
+                    sportType = "Football", list = state.sports?.football
+                )
+                SportTypesItem(
                     sportType = "Cricket", list = state.sports?.cricket
                 )
                 SportTypesItem(
                     sportType = "Golf", list = state.sports?.golf
-                )
-                SportTypesItem(
-                    sportType = "Football", list = state.sports?.football
                 )
             }
         }

@@ -44,7 +44,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.mm.weatherapp.astronomy.domain.Astronomy
-import com.mm.weatherapp.ui.theme.BlueLight
 import com.mm.weatherapp.ui.theme.YellowLight
 
 @Composable
@@ -75,7 +74,7 @@ fun SunAndMoonCard(
                 text = "Sun & Moon",
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
-                color = BlueLight
+                color = MaterialTheme.colorScheme.primary
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -133,7 +132,7 @@ fun SunAndMoonCard(
                     Icon(
                         Icons.Filled.NightlightRound,
                         contentDescription = "moon",
-                        tint = BlueLight,
+                        tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.graphicsLayer {
                             rotationZ = if (isExpanded) rotation else 0f
                         }
@@ -193,7 +192,7 @@ fun SunAndMoonCard(
                     TimeDifferenceRow(
                         label = "Set Difference:",
                         timeDifference = astronomy.diffSunSetMoonSet,
-                        color = BlueLight
+                        color = MaterialTheme.colorScheme.primary
                     )
                     if (isExpanded) {
                         Row(

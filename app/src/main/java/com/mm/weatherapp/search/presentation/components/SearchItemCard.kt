@@ -21,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.mm.weatherapp.search.domain.Search
-import com.mm.weatherapp.ui.theme.BlueLight
 import com.mm.weatherapp.ui.theme.YellowLight
 
 @Composable
@@ -51,7 +50,7 @@ fun SearchItemCard(
                     text = item.name,
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
-                    color = BlueLight
+                    color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(

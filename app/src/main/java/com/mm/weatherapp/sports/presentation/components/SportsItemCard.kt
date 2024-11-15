@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -29,6 +30,7 @@ import com.mm.weatherapp.core.data.utils.toStringTime
 import com.mm.weatherapp.core.data.utils.toZonedDateTime
 import com.mm.weatherapp.sports.domain.SportItem
 import com.mm.weatherapp.ui.theme.WeatherAppTheme
+import com.mm.weatherapp.ui.theme.YellowLight
 
 @Composable
 fun SportsItemCard(sportsItem: SportItem) {
@@ -42,9 +44,10 @@ fun SportsItemCard(sportsItem: SportItem) {
             Image(
                 imageVector = sportsItem.image,
                 contentDescription = "Sports type",
+                contentScale = ContentScale.Crop,
+                colorFilter = ColorFilter.tint(color = YellowLight),
                 modifier = Modifier
                     .size(60.dp),
-                contentScale = ContentScale.Crop
             )
             Spacer(modifier = Modifier.width(8.dp))
             Column(modifier = Modifier.weight(1f)) {

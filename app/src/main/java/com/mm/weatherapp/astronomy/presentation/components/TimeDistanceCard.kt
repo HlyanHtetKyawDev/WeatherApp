@@ -34,7 +34,6 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.mm.weatherapp.ui.theme.BlueLight
 import com.mm.weatherapp.ui.theme.WeatherAppTheme
 
 @Composable
@@ -73,7 +72,7 @@ fun TimeDistanceCard(
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(
                         imageVector = Icons.Filled.LocationOn,
-                        tint = BlueLight,
+                        tint = MaterialTheme.colorScheme.primary,
                         contentDescription = "distance",
                         modifier = Modifier.scale(if (isHovered) 1.1f else 1f)
                     )
@@ -104,7 +103,7 @@ fun TimeDistanceCard(
                     Icon(
                         imageVector = Icons.Filled.Schedule,
                         contentDescription = "time",
-                        tint = BlueLight,
+                        tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.scale(if (isHovered) 1.1f else 1f)
                     )
                     Spacer(modifier = Modifier.height(4.dp))
