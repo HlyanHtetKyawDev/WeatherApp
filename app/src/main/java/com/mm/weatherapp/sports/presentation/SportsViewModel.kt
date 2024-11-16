@@ -2,6 +2,7 @@ package com.mm.weatherapp.sports.presentation
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.mm.weatherapp.auth.domain.useCase.GoogleSignOutUseCase
 import com.mm.weatherapp.core.data.network.utils.Resource
 import com.mm.weatherapp.core.presentation.BaseViewModel
 import com.mm.weatherapp.sports.domain.useCase.SportsUseCase
@@ -18,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SportsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle = SavedStateHandle(),
-    private val sportsUseCase: SportsUseCase
+    private val sportsUseCase: SportsUseCase,
+    private val googleSignOutUseCase: GoogleSignOutUseCase,
 ) : BaseViewModel<SportsEvent>() {
 
     private val cityName = savedStateHandle["name"] ?: "Yangon"
@@ -65,6 +67,17 @@ class SportsViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    fun signOut() {
+        viewModelScope.launch {
+            googleSignOutUseCase.invoke()
+        }
+        _state.update {
+            it.copy(
+                isLogOut = true,
+            )
         }
     }
 }

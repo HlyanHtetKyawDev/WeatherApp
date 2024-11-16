@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -44,9 +45,14 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     composable<ScreenSearch> {
-                        SearchScreen { name ->
-                            navController.navigate(ScreenAstronomy(name))
-                        }
+                        SearchScreen(
+                            onClick = { name ->
+                                navController.navigate(ScreenAstronomy(name))
+                            },
+                            onLogout = {
+                                signOut(navController)
+                            }
+                        )
                     }
                     composable<ScreenAstronomy> {
                         AstronomyScreen(
@@ -55,17 +61,33 @@ class MainActivity : ComponentActivity() {
                             },
                             onClickBack = {
                                 navController.navigateUp()
+                            },
+                            onLogout = {
+                                signOut(navController)
                             }
                         )
                     }
                     composable<ScreenSports> {
                         val name = it.toRoute<ScreenSports>().name.orEmpty()
-                        SportsScreen(name) {
-                            navController.navigateUp()
-                        }
+                        SportsScreen(
+                            name = name,
+                            onClickBack = {
+                                navController.navigateUp()
+                            },
+                            onLogout = {
+                                signOut(navController)
+                            }
+                        )
                     }
                 }
             }
+        }
+    }
+
+    private fun signOut(navController: NavController) {
+        navController.navigate(ScreenLogin) {
+            popUpTo(0) { inclusive = true }
+            launchSingleTop = true
         }
     }
 }

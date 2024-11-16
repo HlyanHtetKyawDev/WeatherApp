@@ -3,6 +3,7 @@ package com.mm.weatherapp.astronomy.presentation
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.mm.weatherapp.astronomy.domain.useCase.AstronomyUseCase
+import com.mm.weatherapp.auth.domain.useCase.GoogleSignOutUseCase
 import com.mm.weatherapp.core.data.network.utils.Resource
 import com.mm.weatherapp.core.presentation.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AstronomyViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle = SavedStateHandle(),
-    private val astronomyUseCase: AstronomyUseCase
+    private val astronomyUseCase: AstronomyUseCase,
+    private val googleSignOutUseCase: GoogleSignOutUseCase,
 ) : BaseViewModel<AstronomyEvent>() {
 
     private val cityName = savedStateHandle["name"] ?: "Yangon"
@@ -65,6 +67,17 @@ class AstronomyViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    fun signOut() {
+        viewModelScope.launch {
+            googleSignOutUseCase.invoke()
+        }
+        _state.update {
+            it.copy(
+                isLogOut = true,
+            )
         }
     }
 }

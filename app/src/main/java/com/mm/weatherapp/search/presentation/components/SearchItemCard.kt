@@ -21,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.mm.weatherapp.search.domain.Search
-import com.mm.weatherapp.ui.theme.YellowLight
 
 @Composable
 fun SearchItemCard(
@@ -68,7 +67,7 @@ fun SearchItemCard(
             Icon(
                 imageVector = Icons.Filled.LocationCity,
                 contentDescription = null,
-                tint = YellowLight,
+                tint = MaterialTheme.colorScheme.secondary,
                 modifier = Modifier
                     .weight(1f)
                     .padding(end = 8.dp)

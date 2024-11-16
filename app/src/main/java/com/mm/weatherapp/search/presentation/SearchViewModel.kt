@@ -1,6 +1,7 @@
 package com.mm.weatherapp.search.presentation
 
 import androidx.lifecycle.viewModelScope
+import com.mm.weatherapp.auth.domain.useCase.GoogleSignOutUseCase
 import com.mm.weatherapp.core.data.network.utils.Resource
 import com.mm.weatherapp.core.presentation.BaseViewModel
 import com.mm.weatherapp.search.domain.useCase.SearchCitiesUseCase
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val searchCitiesUseCase: SearchCitiesUseCase
+    private val searchCitiesUseCase: SearchCitiesUseCase,
+    private val googleSignOutUseCase: GoogleSignOutUseCase,
 ) : BaseViewModel<SearchEvent>() {
 
     private val _state = MutableStateFlow(SearchUiState())
@@ -62,6 +64,17 @@ class SearchViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    fun signOut() {
+        viewModelScope.launch {
+            googleSignOutUseCase.invoke()
+        }
+        _state.update {
+            it.copy(
+                isLogOut = true,
+            )
         }
     }
 }

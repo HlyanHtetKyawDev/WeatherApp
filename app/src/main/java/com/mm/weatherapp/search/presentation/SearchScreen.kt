@@ -19,7 +19,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -28,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mm.weatherapp.core.presentation.components.AppBar
+import com.mm.weatherapp.core.presentation.components.LogoutConfirmDialog
 import com.mm.weatherapp.core.presentation.components.SearchTextField
 import com.mm.weatherapp.core.presentation.utils.ObserveAsEvents
 import com.mm.weatherapp.search.presentation.components.SearchItemCard
@@ -38,6 +43,7 @@ fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
     onClick: (String) -> Unit,
+    onLogout: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -52,7 +58,14 @@ fun SearchScreen(
         }
     }
 
+    LaunchedEffect(state.isLogOut) {
+        if (state.isLogOut) {
+            onLogout()
+        }
+    }
+
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    var isDialogOpen by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -61,6 +74,9 @@ fun SearchScreen(
                 isBackIconShown = false,
                 scrollBehavior = scrollBehavior,
                 modifier = modifier,
+                onLogoutClick = {
+                    isDialogOpen = true
+                }
             )
         },
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -90,6 +106,17 @@ fun SearchScreen(
                 ) {
                     CircularProgressIndicator()
                 }
+            } else if (isDialogOpen) {
+                LogoutConfirmDialog(
+                    isDialogOpen = isDialogOpen,
+                    onConfirm = {
+                        viewModel.signOut()
+                        isDialogOpen = false
+                    },
+                    onDismiss = {
+                        isDialogOpen = false
+                    }
+                )
             } else {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),

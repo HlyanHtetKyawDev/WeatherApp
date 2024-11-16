@@ -7,4 +7,5 @@ data class SportsUiState(
     val isLoading: Boolean = false,
     val sports: Sports? = null,
     val error: GeneralError? = null,
+    val isLogOut: Boolean = false,
 )

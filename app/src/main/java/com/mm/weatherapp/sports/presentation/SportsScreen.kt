@@ -14,7 +14,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -22,6 +26,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mm.weatherapp.core.presentation.components.AppBar
+import com.mm.weatherapp.core.presentation.components.LogoutConfirmDialog
 import com.mm.weatherapp.core.presentation.utils.ObserveAsEvents
 import com.mm.weatherapp.sports.presentation.components.SportTypesItem
 
@@ -32,6 +37,7 @@ fun SportsScreen(
     viewModel: SportsViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
     onClickBack: () -> Unit,
+    onLogout: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -46,7 +52,14 @@ fun SportsScreen(
         }
     }
 
+    LaunchedEffect(state.isLogOut) {
+        if (state.isLogOut) {
+            onLogout()
+        }
+    }
+
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    var isDialogOpen by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -55,9 +68,13 @@ fun SportsScreen(
                 isBackIconShown = true,
                 scrollBehavior = scrollBehavior,
                 modifier = modifier,
-            ) {
-                onClickBack()
-            }
+                onLogoutClick = {
+                    isDialogOpen = true
+                },
+                onClickBack = {
+                    onClickBack()
+                }
+            )
         },
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
     ) { contentPadding ->
@@ -70,6 +87,17 @@ fun SportsScreen(
             ) {
                 CircularProgressIndicator()
             }
+        } else if (isDialogOpen) {
+            LogoutConfirmDialog(
+                isDialogOpen = isDialogOpen,
+                onConfirm = {
+                    viewModel.signOut()
+                    isDialogOpen = false
+                },
+                onDismiss = {
+                    isDialogOpen = false
+                }
+            )
         } else {
             Column(
                 modifier = modifier
@@ -88,6 +116,7 @@ fun SportsScreen(
                     sportType = "Golf", list = state.sports?.golf
                 )
             }
+
         }
     }
 }

@@ -4,9 +4,11 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -14,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -31,7 +34,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import com.mm.weatherapp.ui.theme.BlueLight
 import kotlinx.coroutines.delay
 
 @Composable
@@ -45,6 +47,7 @@ fun CommonOutlinedTextFiled(
     imeAction: ImeAction = ImeAction.Next,
     keyboardType: KeyboardType = KeyboardType.Text,
     onValueChange: (String) -> Unit,
+    onDone: () -> Unit = {},
 ) {
     OutlinedTextField(
         value = text,
@@ -57,7 +60,11 @@ fun CommonOutlinedTextFiled(
         singleLine = singleLine,
         keyboardOptions = KeyboardOptions(
             imeAction = imeAction,
-            keyboardType = keyboardType),
+            keyboardType = keyboardType
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = { onDone() }
+        ),
         visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None
     )
 }
@@ -113,8 +120,10 @@ fun SearchTextField(
         singleLine = true,
         shape = MaterialTheme.shapes.medium,
         colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = BlueLight,
-            unfocusedBorderColor = MaterialTheme.colorScheme.primary
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
+            focusedLabelColor = MaterialTheme.colorScheme.primary,
+            unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+            unfocusedLabelColor = MaterialTheme.colorScheme.outline,
         )
     )
 }
@@ -126,6 +135,7 @@ fun AppBar(
     isBackIconShown: Boolean = true,
     scrollBehavior: TopAppBarScrollBehavior? = null,
     modifier: Modifier = Modifier,
+    onLogoutClick: () -> Unit,
     onClickBack: () -> Unit = {},
 ) {
     TopAppBar(
@@ -141,6 +151,17 @@ fun AppBar(
                 }
             }
         },
+        actions = {
+            IconButton(onClick = {
+                onLogoutClick()
+            }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.Logout,
+                    contentDescription = "Logout",
+                    tint = Color.White
+                )
+            }
+        },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = Color.White
@@ -148,4 +169,38 @@ fun AppBar(
         scrollBehavior = scrollBehavior,
         modifier = modifier
     )
+}
+
+
+@Composable
+fun LogoutConfirmDialog(
+    isDialogOpen: Boolean,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    if (isDialogOpen) {
+        AlertDialog(
+            onDismissRequest = onDismiss, // Dismisses the dialog if clicked outside
+            title = {
+                Text(text = "Logout")
+            },
+            text = {
+                Text(text = "Are you sure to logout?")
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    onConfirm()
+                }) {
+                    Text("Yes", color = Color.Black)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = {
+                    onDismiss() // Handle dismiss action
+                }) {
+                    Text("No", color = Color.Black) // Customize the cancel button color
+                }
+            },
+        )
+    }
 }

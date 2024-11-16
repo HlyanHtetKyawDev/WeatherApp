@@ -32,7 +32,7 @@ class GoogleSignInUseCase @Inject constructor(
         }
         try {
             val result = buildCredentialRequest()
-            return handleSingIn(result)
+            return handleSignIn(result)
         } catch (e: Exception) {
             e.printStackTrace()
             if (e is CancellationException) throw e
@@ -41,7 +41,7 @@ class GoogleSignInUseCase @Inject constructor(
         }
     }
 
-    private suspend fun handleSingIn(result: GetCredentialResponse): Boolean {
+    private suspend fun handleSignIn(result: GetCredentialResponse): Boolean {
         val credential = result.credential
         if (credential is CustomCredential &&
             credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL

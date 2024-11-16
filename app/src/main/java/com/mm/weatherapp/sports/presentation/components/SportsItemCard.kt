@@ -30,7 +30,6 @@ import com.mm.weatherapp.core.data.utils.toStringTime
 import com.mm.weatherapp.core.data.utils.toZonedDateTime
 import com.mm.weatherapp.sports.domain.SportItem
 import com.mm.weatherapp.ui.theme.WeatherAppTheme
-import com.mm.weatherapp.ui.theme.YellowLight
 
 @Composable
 fun SportsItemCard(sportsItem: SportItem) {
@@ -45,7 +44,7 @@ fun SportsItemCard(sportsItem: SportItem) {
                 imageVector = sportsItem.image,
                 contentDescription = "Sports type",
                 contentScale = ContentScale.Crop,
-                colorFilter = ColorFilter.tint(color = YellowLight),
+                colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.secondary),
                 modifier = Modifier
                     .size(60.dp),
             )

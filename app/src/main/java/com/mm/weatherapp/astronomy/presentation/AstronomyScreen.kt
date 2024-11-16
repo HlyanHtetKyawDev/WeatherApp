@@ -1,5 +1,6 @@
 package com.mm.weatherapp.astronomy.presentation
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -39,6 +40,7 @@ import com.mm.weatherapp.astronomy.presentation.components.SunAndMoonCard
 import com.mm.weatherapp.astronomy.presentation.components.TimeDistanceCard
 import com.mm.weatherapp.core.data.utils.toStringTime
 import com.mm.weatherapp.core.presentation.components.AppBar
+import com.mm.weatherapp.core.presentation.components.LogoutConfirmDialog
 import com.mm.weatherapp.core.presentation.components.SearchTextField
 import com.mm.weatherapp.core.presentation.utils.ObserveAsEvents
 import com.mm.weatherapp.search.presentation.components.SearchItemCard
@@ -50,7 +52,8 @@ fun AstronomyScreen(
     viewModel: AstronomyViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
     onClickItem: (String) -> Unit,
-    onClickBack: () -> Unit
+    onClickBack: () -> Unit,
+    onLogout: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -75,7 +78,14 @@ fun AstronomyScreen(
         }
     }
 
+    LaunchedEffect(state.isLogOut) {
+        if (state.isLogOut) {
+            onLogout()
+        }
+    }
+
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    var isDialogOpen by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -83,9 +93,13 @@ fun AstronomyScreen(
                 title = "Astronomy",
                 scrollBehavior = scrollBehavior,
                 modifier = modifier,
-            ) {
-                onClickBack()
-            }
+                onLogoutClick = {
+                    isDialogOpen = true
+                },
+                onClickBack = {
+                    onClickBack()
+                }
+            )
         },
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
     ) { contentPadding ->
@@ -115,6 +129,17 @@ fun AstronomyScreen(
                 ) {
                     CircularProgressIndicator()
                 }
+            } else if (isDialogOpen) {
+                LogoutConfirmDialog(
+                    isDialogOpen = isDialogOpen,
+                    onConfirm = {
+                        viewModel.signOut()
+                        isDialogOpen = false
+                    },
+                    onDismiss = {
+                        isDialogOpen = false
+                    }
+                )
             } else {
                 Column(
                     modifier = Modifier

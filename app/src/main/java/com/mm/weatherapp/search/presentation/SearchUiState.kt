@@ -7,4 +7,5 @@ data class SearchUiState(
     val isLoading: Boolean = false,
     val searchList: List<Search> = emptyList(),
     val error: GeneralError? = null,
+    val isLogOut: Boolean = false,
 )

@@ -7,4 +7,5 @@ data class AstronomyUiState(
     val isLoading: Boolean = false,
     val astronomy: Astronomy? = null,
     val error: GeneralError? = null,
+    val isLogOut: Boolean = false,
 )
