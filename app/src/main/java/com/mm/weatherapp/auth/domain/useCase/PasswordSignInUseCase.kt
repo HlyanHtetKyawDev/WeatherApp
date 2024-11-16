@@ -17,6 +17,15 @@ class PasswordSignInUseCase @Inject constructor(
         signInWithPassword(email, password)
 
     private suspend fun signInWithPassword(email: String, password: String): LoginResponse {
+        if (email.isEmpty()) {
+            return LoginResponse(message = "Email is required.")
+        }
+        if (password.isEmpty()) {
+            return LoginResponse(message = "Password is required.")
+        }
+        if (!email.isEmailValid()) {
+            return LoginResponse(message = "Email is not valid.")
+        }
         if (firebaseAuth.currentUser != null) {
             return LoginResponse(isSuccess = true)
         }
@@ -45,3 +54,7 @@ class PasswordSignInUseCase @Inject constructor(
     }
 }
 
+fun String.isEmailValid(): Boolean {
+    val emailRegex = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})"
+    return emailRegex.toRegex().matches(this)
+}
