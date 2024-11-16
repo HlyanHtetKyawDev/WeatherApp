@@ -61,6 +61,11 @@ android {
         compose = true
         buildConfig = true
     }
+    testOptions {
+        unitTests{
+          isReturnDefaultValues = true
+        }
+    }
 }
 
 dependencies {
@@ -94,4 +99,8 @@ dependencies {
     implementation(libs.googleid)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth.ktx)
+
+    // Testing
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
