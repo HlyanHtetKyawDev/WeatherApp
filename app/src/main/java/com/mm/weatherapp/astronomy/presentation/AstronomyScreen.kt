@@ -69,7 +69,7 @@ fun AstronomyScreen(
                 Toast.makeText(
                     context,
                     event.error.message,
-                    Toast.LENGTH_LONG
+                    Toast.LENGTH_SHORT
                 ).show()
             }
         }

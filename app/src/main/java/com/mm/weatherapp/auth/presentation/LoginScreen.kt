@@ -35,6 +35,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -58,7 +59,7 @@ fun LoginScreen(
             Toast.makeText(
                 context,
                 it,
-                Toast.LENGTH_LONG
+                Toast.LENGTH_SHORT
             ).show()
         }
     }
@@ -91,6 +92,7 @@ fun LoginScreen(
                 hint = stringResource(R.string.email),
                 text = email,
                 leadingIcon = Icons.Default.Email,
+                keyboardType = KeyboardType.Email,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp),
@@ -103,6 +105,7 @@ fun LoginScreen(
                 leadingIcon = Icons.Default.Lock,
                 isPassword = true,
                 imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.Password,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 24.dp),

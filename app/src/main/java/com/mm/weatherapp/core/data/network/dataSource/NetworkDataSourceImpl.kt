@@ -35,6 +35,9 @@ class NetworkDataSourceImpl @Inject constructor(
             query = query,
             date = todayDate
         ).awaitResponse()
+        if (response.body()?.error?.message != null) {
+            throw FailResponseException(response.body()?.error?.message ?: response.message())
+        }
         if (!response.isSuccessful) {
             throw FailResponseException(response.message())
         }
@@ -46,6 +49,9 @@ class NetworkDataSourceImpl @Inject constructor(
 
     override suspend fun getSports(query: String): SportsDto {
         val response = apiService.getSports(query).awaitResponse()
+        if (response.body()?.error?.message != null) {
+            throw FailResponseException(response.body()?.error?.message ?: response.message())
+        }
         if (!response.isSuccessful) {
             throw FailResponseException(response.message())
         }

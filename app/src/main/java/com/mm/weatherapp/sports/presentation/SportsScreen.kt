@@ -40,7 +40,7 @@ fun SportsScreen(
         when (event) {
             is SportsEvent.Error -> {
                 Toast.makeText(
-                    context, event.error.message, Toast.LENGTH_LONG
+                    context, event.error.message, Toast.LENGTH_SHORT
                 ).show()
             }
         }

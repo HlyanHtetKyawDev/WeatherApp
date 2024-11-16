@@ -1,5 +1,6 @@
 package com.mm.weatherapp.search.presentation
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -45,7 +46,7 @@ fun SearchScreen(
         when (event) {
             is SearchEvent.Error -> {
                 Toast.makeText(
-                    context, event.error.message, Toast.LENGTH_LONG
+                    context, event.error.message, Toast.LENGTH_SHORT
                 ).show()
             }
         }
