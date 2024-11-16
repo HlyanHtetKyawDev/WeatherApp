@@ -54,6 +54,7 @@ class SearchViewModel @Inject constructor(
                             _state.update {
                                 it.copy(
                                     isLoading = false,
+                                    error = null,
                                     searchList = result.data.orEmpty()
                                 )
                             }

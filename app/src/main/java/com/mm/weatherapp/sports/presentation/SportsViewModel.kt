@@ -57,6 +57,7 @@ class SportsViewModel @Inject constructor(
                             _state.update {
                                 it.copy(
                                     isLoading = false,
+                                    error = null,
                                     sports = result.data
                                 )
                             }
