@@ -93,7 +93,7 @@ fun SearchTextField(
         value = text,
         onValueChange = { text = it },
         modifier = modifier,
-        placeholder = { Text("Search Cities...") },
+        placeholder = { Text("Search Locations...") },
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,
