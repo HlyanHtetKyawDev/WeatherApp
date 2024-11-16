@@ -15,6 +15,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -113,7 +114,9 @@ fun SearchTextField(
 fun AppBar(
     title: String,
     isBackIconShown: Boolean = true,
-    onClickBack: () -> Unit = {}
+    scrollBehavior: TopAppBarScrollBehavior? = null,
+    modifier: Modifier = Modifier,
+    onClickBack: () -> Unit = {},
 ) {
     TopAppBar(
         title = { Text(title) },
@@ -131,6 +134,8 @@ fun AppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = Color.White
-        )
+        ),
+        scrollBehavior = scrollBehavior,
+        modifier = modifier
     )
 }

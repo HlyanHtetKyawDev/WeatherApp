@@ -16,8 +16,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -26,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,6 +44,7 @@ import com.mm.weatherapp.core.presentation.utils.ObserveAsEvents
 import com.mm.weatherapp.search.presentation.components.SearchItemCard
 import com.mm.weatherapp.ui.theme.WeatherAppTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AstronomyScreen(
     viewModel: AstronomyViewModel = hiltViewModel(),
@@ -70,14 +74,20 @@ fun AstronomyScreen(
             }
         }
     }
+
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+
     Scaffold(
         topBar = {
             AppBar(
-                title = "Astronomy"
+                title = "Astronomy",
+                scrollBehavior = scrollBehavior,
+                modifier = modifier,
             ) {
                 onClickBack()
             }
         },
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
     ) { contentPadding ->
         Column(
             modifier = modifier
