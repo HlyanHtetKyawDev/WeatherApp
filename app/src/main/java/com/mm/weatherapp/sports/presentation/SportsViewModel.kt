@@ -73,11 +73,11 @@ class SportsViewModel @Inject constructor(
     fun signOut() {
         viewModelScope.launch {
             googleSignOutUseCase.invoke()
-        }
-        _state.update {
-            it.copy(
-                isLogOut = true,
-            )
+            _state.update {
+                it.copy(
+                    isLogOut = true,
+                )
+            }
         }
     }
 }

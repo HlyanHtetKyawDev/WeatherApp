@@ -31,35 +31,36 @@ class SearchViewModel @Inject constructor(
         set(value) = _state.update { it.copy(isLoading = value) }
 
     fun searchCities(query: String) {
-        if (query.isNotEmpty()) {
-            _state.update {
-                it.copy(
-                    isLoading = false,
-                    searchList = emptyList()
-                )
-            }
-            viewModelScope.launch {
-                searchCitiesUseCase(query).collectLatest { result ->
-                    when (result) {
-                        is Resource.Error -> {
-                            _state.update {
-                                it.copy(
-                                    isLoading = false,
-                                    error = result.error
-                                )
-                            }
-                            emitEvent(SearchEvent.Error(result.error))
+        val q = query.ifEmpty {
+            "Yangon"
+        }
+        _state.update {
+            it.copy(
+                isLoading = false,
+                searchList = emptyList()
+            )
+        }
+        viewModelScope.launch {
+            searchCitiesUseCase(q).collectLatest { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        _state.update {
+                            it.copy(
+                                isLoading = false,
+                                error = result.error
+                            )
                         }
+                        emitEvent(SearchEvent.Error(result.error))
+                    }
 
-                        is Resource.Loading -> _loading = true
-                        is Resource.Success -> {
-                            _state.update {
-                                it.copy(
-                                    isLoading = false,
-                                    error = null,
-                                    searchList = result.data.orEmpty()
-                                )
-                            }
+                    is Resource.Loading -> _loading = true
+                    is Resource.Success -> {
+                        _state.update {
+                            it.copy(
+                                isLoading = false,
+                                error = null,
+                                searchList = result.data.orEmpty()
+                            )
                         }
                     }
                 }
@@ -70,11 +71,11 @@ class SearchViewModel @Inject constructor(
     fun signOut() {
         viewModelScope.launch {
             googleSignOutUseCase.invoke()
-        }
-        _state.update {
-            it.copy(
-                isLogOut = true,
-            )
+            _state.update {
+                it.copy(
+                    isLogOut = true,
+                )
+            }
         }
     }
 }

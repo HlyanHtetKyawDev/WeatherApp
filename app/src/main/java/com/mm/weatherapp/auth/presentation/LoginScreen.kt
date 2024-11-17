@@ -47,6 +47,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mm.weatherapp.R
 import com.mm.weatherapp.core.presentation.components.CommonOutlinedTextFiled
+import com.mm.weatherapp.core.presentation.utils.ObserveAsEvents
 
 @Composable
 fun LoginScreen(
@@ -55,18 +56,23 @@ fun LoginScreen(
     onLoginSuccess: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val context = LocalContext.current
 
-    LaunchedEffect(state) {
+    LaunchedEffect(state.isLoginSuccess) {
         if (state.isLoginSuccess) {
             onLoginSuccess()
         }
-        state.message?.let {
-            Toast.makeText(
-                context,
-                it,
-                Toast.LENGTH_SHORT
-            ).show()
+    }
+
+    val context = LocalContext.current
+    ObserveAsEvents(events = viewModel.event) { event ->
+        when (event) {
+            is LoginEvent.Error -> {
+                Toast.makeText(
+                    context,
+                    event.error.message,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 

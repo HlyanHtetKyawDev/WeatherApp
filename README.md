@@ -1,7 +1,7 @@
 # Weather & Sports Android App Assignment
 
 ### Overview
-This is an Android application development assignment that integrates WeatherAPI.com services to create a multi-functional app with weather search, astronomy data, and sports information features.
+This is an Android application development assignment that integrates WeatherAPI.com services to create a multi-functional app with weather search, astronomy data, and sports information features. It also has test cases for Testing.
 
 ### Used Technologies
 - UI Design
@@ -23,8 +23,8 @@ This is an Android application development assignment that integrates WeatherAPI
 The application consists of four screens:
 
 1. **Login Screen**
-    - Google account login integration
-    - Email and password login integration (email = test@gmail.com, password = abc123 for testing)
+    - Google account login integration with Firebase Authentication
+    - Email and password login integration (email - test@gmail.com, password - abc123 for testing)
 
 2. **Search Screen**
     - Integration with WeatherAPI Search endpoint

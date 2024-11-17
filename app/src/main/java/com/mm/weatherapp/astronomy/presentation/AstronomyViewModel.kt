@@ -34,35 +34,36 @@ class AstronomyViewModel @Inject constructor(
         set(value) = _state.update { it.copy(isLoading = value) }
 
     fun getAstronomy(query: String) {
-        if (query.isNotEmpty()) {
-            _state.update {
-                it.copy(
-                    isLoading = false,
-                    astronomy = null
-                )
-            }
-            viewModelScope.launch {
-                astronomyUseCase(query).collectLatest { result ->
-                    when (result) {
-                        is Resource.Error -> {
-                            _state.update {
-                                it.copy(
-                                    isLoading = false,
-                                    error = result.error
-                                )
-                            }
-                            emitEvent(AstronomyEvent.Error(result.error))
+        val q = query.ifEmpty {
+            "Yangon"
+        }
+        _state.update {
+            it.copy(
+                isLoading = false,
+                astronomy = null
+            )
+        }
+        viewModelScope.launch {
+            astronomyUseCase(q).collectLatest { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        _state.update {
+                            it.copy(
+                                isLoading = false,
+                                error = result.error
+                            )
                         }
+                        emitEvent(AstronomyEvent.Error(result.error))
+                    }
 
-                        is Resource.Loading -> _loading = true
-                        is Resource.Success -> {
-                            _state.update {
-                                it.copy(
-                                    isLoading = false,
-                                    error = null,
-                                    astronomy = result.data
-                                )
-                            }
+                    is Resource.Loading -> _loading = true
+                    is Resource.Success -> {
+                        _state.update {
+                            it.copy(
+                                isLoading = false,
+                                error = null,
+                                astronomy = result.data
+                            )
                         }
                     }
                 }
@@ -70,14 +71,15 @@ class AstronomyViewModel @Inject constructor(
         }
     }
 
+
     fun signOut() {
         viewModelScope.launch {
             googleSignOutUseCase.invoke()
-        }
-        _state.update {
-            it.copy(
-                isLogOut = true,
-            )
+            _state.update {
+                it.copy(
+                    isLogOut = true,
+                )
+            }
         }
     }
 }
