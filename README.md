@@ -1,7 +1,7 @@
 # Weather & Sports Android App Assignment
 
 ### Overview
-This is an Android application development assignment that integrates WeatherAPI.com services to create a multi-functional app with weather search, astronomy data, and sports information features. It also has test cases for Testing.
+This is an Android application development assignment that integrates WeatherAPI.com services to create a multi-functional app with login, weather search, astronomy data, and sports information features. It also has test cases for Testing.
 
 ### Used Technologies
 - UI Design
